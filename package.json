@@ -1,0 +1,20 @@
+{
+  "name": "cordova-plugin-simple-contacts",
+  "version": "0.1.0",
+  "description": "Simple interface for dealing with contacts from ios and android devices",
+  "cordova": {
+    "id": "cordova-plugin-simple-contacts",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "tantona",
+  "license": "MIT"
+}

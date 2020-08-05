@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-simple-contacts" version="0.0.1"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>SimpleContacts</name>
+
+    <js-module name="SimpleContacts" src="www/SimpleContacts.js">
+        <clobbers target="SimpleContacts" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SimpleContacts">
+                <param name="android-package" value="com.mipadrino.cordova.SimpleContacts.SimpleContacts" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/SimpleContacts.java" target-dir="src/com/mipadrino/cordova/SimpleContacts" />
+
+        <framework src="com.tomash:androidcontacts:1.14.0" />
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+
+            <feature name="SimpleContacts">
+                <param name="ios-package" value="SimpleContacts" />
+            </feature>
+
+        </config-file>
+
+        <!-- Add in the plugin .swift files here -->
+        <source-file src="src/ios/SimpleContacts.swift" />
+
+        <!-- Add in the swift-support plugin by default -->
+        <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
+
+    </platform>
+</plugin>
