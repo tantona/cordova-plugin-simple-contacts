@@ -13,7 +13,11 @@ func fetchContacts() -> [CNContact] {
         ]
         let containerId = store.defaultContainerIdentifier()
         let predicate = CNContact.predicateForContactsInContainer(withIdentifier: containerId)
-        let contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+        var contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+
+        contacts.sort {
+            $0.familyName > $1.familyName
+        }
 
         return contacts
 
@@ -70,6 +74,7 @@ func toDictionary(contact: CNContact)->[String:Any]{
 
         var response = [Any]()
         let contacts = fetchContacts()
+
         for contact in contacts {
             response.append(toDictionary(contact: contact))
         }

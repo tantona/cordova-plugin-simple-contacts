@@ -1,10 +1,15 @@
-package com.cordova.SimpleContacts;
+package com.tantona.cordova.simplecontacts;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.Manifest;
 import android.content.Context;
+import android.util.Log;
+
 import androidx.core.content.ContextCompat;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -27,14 +32,14 @@ public class SimpleContacts extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this.callbackContext = callbackContext;
-        if (action.equals("listContacts")) {
-            this.listContacts();
+        if (action.equals("list")) {
+            this.list();
             return true;
         }
         return false;
     }
 
-    private void listContacts() throws JSONException {
+    private void list() throws JSONException {
         Context ctx = this.cordova.getActivity().getApplicationContext();
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             this.fetchContacts();
@@ -63,7 +68,8 @@ public class SimpleContacts extends CordovaPlugin {
                 .allFields()
                 .buildList();
 
-        JSONArray contactList = new JSONArray();
+//        JSONArray contactList = new chrome();
+        List<JSONObject> contactList = new ArrayList<JSONObject>();
         for (ContactData contact : contacts) {
             JSONObject item = new JSONObject();
 
@@ -90,11 +96,35 @@ public class SimpleContacts extends CordovaPlugin {
             }
             item.put("phoneNumbers", phoneNumbers);
 
-            contactList.put(item);
+//            contactList.put(item);
+            contactList.add(item);
         }
 
+        Collections.sort( contactList, new Comparator<JSONObject>() {
+
+            public int compare(JSONObject a, JSONObject b) {
+                String valA = new String();
+                String valB = new String();
+
+                try {
+                    valA = (String) a.get("familyName");
+                    valB = (String) b.get("familyName");
+                }
+                catch (JSONException e) {
+                    //do something
+                    Log.println(Log.ERROR, "unable to sort contacts", e.toString());
+                }
+
+                return valA.compareTo(valB);
+            }
+        });
+
+        JSONArray sortedJsonArray = new JSONArray();
+        for (int i = 0; i < contactList.size(); i++) {
+            sortedJsonArray.put(contactList.get(i));
+        }
         // callbackContext.success(contactList.toString());
-        PluginResult result = new PluginResult(PluginResult.Status.OK, contactList); // You can send data, String, int, array, dictionary and etc
+        PluginResult result = new PluginResult(PluginResult.Status.OK, sortedJsonArray); // You can send data, String, int, array, dictionary and etc
         result.setKeepCallback(false);
         callbackContext.sendPluginResult(result);
     }

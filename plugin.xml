@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-simple-contacts" version="0.0.1"
+<plugin id="cordova-plugin-simple-contacts" version="0.2.3"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>SimpleContacts</name>
@@ -11,11 +11,11 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="SimpleContacts">
-                <param name="android-package" value="com.mipadrino.cordova.SimpleContacts.SimpleContacts" />
+                <param name="android-package" value="com.tantona.cordova.simplecontacts.SimpleContacts" />
             </feature>
         </config-file>
 
-        <source-file src="src/android/SimpleContacts.java" target-dir="src/com/mipadrino/cordova/SimpleContacts" />
+        <source-file src="src/android/SimpleContacts.java" target-dir="src/com/tantona/cordova/SimpleContacts" />
 
         <framework src="com.tomash:androidcontacts:1.14.0" />
     </platform>
