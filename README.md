@@ -2,15 +2,22 @@
 
 ## Installation
 
+`cordova plugin add cordova-plugin-simple-contacts`
+
 ## Usage
 
 ```js
-window.SimpleContacts.list(
-  (contacts) => {
-    console.log("Look at all these contacts!", contacts);
-  },
-  (err) => {
-    console.error("oh no!", err);
-  }
+// then/catch
+window.SimpleContacts.list()
+  .then(contacts => console.log(contacts))
+  .catch(err => console.log(err))
 );
+
+// async/await
+try {
+  const contacts = await window.SimpleContacts.list()
+  console.log(contacts)
+}catch(err) {
+  console.log(err)
+}
 ```
