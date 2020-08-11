@@ -11,9 +11,14 @@ func fetchContacts() -> [CNContact] {
             CNContactPhoneNumbersKey as CNKeyDescriptor,
             CNContactPostalAddressesKey as CNKeyDescriptor,
         ]
-        let containerId = store.defaultContainerIdentifier()
-        let predicate = CNContact.predicateForContactsInContainer(withIdentifier: containerId)
-        var contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+        var contacts = [CNContact]()
+
+        try store.enumerateContacts(with: request) {
+            (contact, stop) in contacts.append(contact)
+        }
+
 
         contacts.sort {
             $0.familyName > $1.familyName
@@ -60,18 +65,10 @@ func toDictionary(contact: CNContact)->[String:Any]{
     return contactDict
 }
 
-/*
- * Notes: The @objc shows that this class & function should be exposed to Cordova.
- */
 
 @objc(SimpleContacts) class SimpleContacts : CDVPlugin, UIActionSheetDelegate {
-    @objc(list:) // Declare your function name.
-    func list(command: CDVInvokedUrlCommand) { // write the function code.
-        /*
-         * Always assume that the plugin will fail.
-         * Even if in this example, it can't.
-         */
-
+    @objc(list:)
+    func list(command: CDVInvokedUrlCommand) {
         var response = [Any]()
         let contacts = fetchContacts()
 
@@ -85,6 +82,5 @@ func toDictionary(contact: CNContact)->[String:Any]{
         pluginResult = CDVPluginResult(status:CDVCommandStatus_OK, messageAs: response);
 
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId);
-
     }
 }
