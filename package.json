@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-simple-contacts",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Simple interface for dealing with contacts from ios and android devices",
   "cordova": {
     "id": "cordova-plugin-simple-contacts",
