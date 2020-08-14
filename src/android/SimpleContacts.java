@@ -81,13 +81,10 @@ public class SimpleContacts extends CordovaPlugin {
             for (Address address : contact.getAddressesList()) {
                 JSONObject postalAddress = new JSONObject();
 
-                postalAddress.put("city", address.getMainData())
-                postalAddress.put("street", address.getMainData())
-                postalAddress.put("country", address.getMainData())
-                postalAddress.put("state", address.getMainData())
-                postalAddress.put("postalCode", address.getMainData())
-                postalAddress.put("subAdministrativeArea", address.getMainData())
-                postalAddress.put("subLocality", address.getMainData())
+                // TODO: This library doesn't give us access to all of the address data in a structured way :(
+                // Come back to this
+
+                postalAddress.put("street", address.getMainData());
 
                 postalAddresses.put(postalAddress);
             }
