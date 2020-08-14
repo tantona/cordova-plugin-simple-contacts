@@ -68,7 +68,6 @@ public class SimpleContacts extends CordovaPlugin {
                 .allFields()
                 .buildList();
 
-//        JSONArray contactList = new chrome();
         List<JSONObject> contactList = new ArrayList<JSONObject>();
         for (ContactData contact : contacts) {
             JSONObject item = new JSONObject();
@@ -80,7 +79,17 @@ public class SimpleContacts extends CordovaPlugin {
 
             JSONArray postalAddresses = new JSONArray();
             for (Address address : contact.getAddressesList()) {
-                postalAddresses.put(address.getMainData());
+                JSONObject postalAddress = new JSONObject();
+
+                postalAddress.put("city", address.getMainData())
+                postalAddress.put("street", address.getMainData())
+                postalAddress.put("country", address.getMainData())
+                postalAddress.put("state", address.getMainData())
+                postalAddress.put("postalCode", address.getMainData())
+                postalAddress.put("subAdministrativeArea", address.getMainData())
+                postalAddress.put("subLocality", address.getMainData())
+
+                postalAddresses.put(postalAddress);
             }
             item.put("postalAddresses", postalAddresses);
 
@@ -96,7 +105,6 @@ public class SimpleContacts extends CordovaPlugin {
             }
             item.put("phoneNumbers", phoneNumbers);
 
-//            contactList.put(item);
             contactList.add(item);
         }
 
@@ -111,7 +119,6 @@ public class SimpleContacts extends CordovaPlugin {
                     valB = (String) b.get("familyName");
                 }
                 catch (JSONException e) {
-                    //do something
                     Log.println(Log.ERROR, "unable to sort contacts", e.toString());
                 }
 
@@ -123,7 +130,7 @@ public class SimpleContacts extends CordovaPlugin {
         for (int i = 0; i < contactList.size(); i++) {
             sortedJsonArray.put(contactList.get(i));
         }
-        // callbackContext.success(contactList.toString());
+
         PluginResult result = new PluginResult(PluginResult.Status.OK, sortedJsonArray); // You can send data, String, int, array, dictionary and etc
         result.setKeepCallback(false);
         callbackContext.sendPluginResult(result);

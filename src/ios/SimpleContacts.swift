@@ -56,9 +56,17 @@ func toDictionary(contact: CNContact)->[String:Any]{
     }
 
     if contact.postalAddresses.count > 0 {
-        var postalAddresses = [String]()
+        var postalAddresses = [[String:String]]()
         for (_, postalAddress) in contact.postalAddresses.enumerated() {
-            postalAddresses.append(CNPostalAddressFormatter.string(from: postalAddress.value, style: .mailingAddress))
+            var pa = [String:String]()
+            pa["city"] = postalAddress.value.city
+            pa["street"] = postalAddress.value.street
+            pa["country"] = postalAddress.value.country
+            pa["state"] =  postalAddress.value.state
+            pa["postalCode"] =  postalAddress.value.postalCode
+            pa["subAdministrativeArea"] =  postalAddress.value.subAdministrativeArea
+            pa["subLocality"] =  postalAddress.value.subLocality
+            postalAddresses.append(pa)
         }
         contactDict["postalAddresses"] = postalAddresses
     }
